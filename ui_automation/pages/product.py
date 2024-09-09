@@ -1,6 +1,6 @@
 import time
 
-from pages.login import Login
+from ui_automation.pages.login import Login
 from selenium.webdriver.common.by import By
 
 
