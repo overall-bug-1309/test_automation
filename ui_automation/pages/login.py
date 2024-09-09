@@ -1,4 +1,4 @@
-from pages.search import SearchPage
+from ui_automation.pages.search import SearchPage
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -9,6 +9,7 @@ class Login(SearchPage):
   PASSWORD = (By.ID, 'password')
   LOGIN_BUTTON = (By.ID, "login-button")
   SHOPPING_CART = (By.CLASS_NAME, "shopping_cart_link")
+  ERROR_MESSAGE = (By.TAG_NAME, "h3")
 
   def __init__(self, driver):
     super().__init__(driver)
@@ -25,3 +26,15 @@ class Login(SearchPage):
   def page_loaded(self):
     element = self.driver.find_element(*self.SHOPPING_CART)
     return element.is_displayed()
+
+  def get_error_message(self):
+    error_text = self.driver.find_element(*self.ERROR_MESSAGE).text
+    return error_text
+
+  def errors_messages(self, error_message):
+    errors = {
+      "locked_user": "Epic sadface: Sorry, this user has been locked out.",
+      "invalid_password": "Epic sadface: Username and password do not match any user in this service",
+      "invalid_username": "Epic sadface: Username and password do not match any user in this service",
+    }
+    return errors[error_message]
